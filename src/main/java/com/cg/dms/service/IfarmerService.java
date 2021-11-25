@@ -3,6 +3,7 @@ package com.cg.dms.service;
 import java.util.List;
 
 import com.cg.dms.entities.Farmer;
+import com.cg.dms.exception.CompanyNotFoundException;
 import com.cg.dms.exception.DealerNotFoundException;
 import com.cg.dms.exception.FarmerAlreadyExistsException;
 import com.cg.dms.exception.FarmerNotFoundException;
@@ -16,6 +17,8 @@ public interface IfarmerService {
 	public Farmer updateFarmer(Farmer user) throws FarmerNotFoundException;
 
 	public List<Farmer> getAllFarmer();
+	
+	public String sellMilk(int companyid)throws CompanyNotFoundException;
 
 //	public Farmer getFarmer(int dealerId)  ;
 

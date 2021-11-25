@@ -100,9 +100,12 @@ public class PaymentService {
 				throw new CustomerNotFoundException("customer not found");
 			}
 	}
-public  List<CompanyPayment> viewAllPaymentsCompany(int companyId) throws CompanyNotFoundException{
+		
+		public  List<CompanyPayment> viewAllPaymentsCompany(int companyId) throws CompanyNotFoundException{
 			
 			List<CompanyPayment> dp= new ArrayList<>();
+			
+			
 			
 			Optional<CompanyPayment> cp = icompanypaymentrepository.findById(companyId);
 			if(cp.isPresent()) {

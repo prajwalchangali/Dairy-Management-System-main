@@ -1,6 +1,7 @@
 package com.cg.dms.controller;
 
 import com.cg.dms.entities.Farmer;
+import com.cg.dms.exception.CompanyNotFoundException;
 import com.cg.dms.exception.DealerNotFoundException;
 import com.cg.dms.exception.FarmerAlreadyExistsException;
 import com.cg.dms.exception.FarmerNotFoundException;
@@ -47,6 +48,17 @@ public class FarmerController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("message", "This farmer data is updated in database.");
 		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(former, headers, HttpStatus.OK);
+		return response;
+	}
+	
+	
+	@GetMapping("/sellmilk/{companyid}")
+	public ResponseEntity<String> sellMilk(@PathVariable(name = "companyid")int companyid) throws CompanyNotFoundException{
+		LOG.info("Controller updatefarmer");
+		String sellmilk = iFarmerService.sellMilk(companyid);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This farmer data is updated in database.");
+		ResponseEntity<String> response = new ResponseEntity<String>(sellmilk, headers, HttpStatus.OK);
 		return response;
 	}
 	
