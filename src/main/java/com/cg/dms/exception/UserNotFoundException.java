@@ -1,11 +1,12 @@
 package com.cg.dms.exception;
 
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6526237075992195378L;
+
 	public UserNotFoundException() {
 		super();
 	}
@@ -13,5 +14,4 @@ public class UserNotFoundException extends RuntimeException {
 	public UserNotFoundException(String message) {
 		super(message);
 	}
-
 }

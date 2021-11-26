@@ -1,6 +1,7 @@
 package com.cg.dms.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class FarmerService implements IfarmerService {
 	
 	@Autowired
 	private ICompanyRepository iCompanyRepository;
-	
+
 	public List<Farmer> getAllFarmer() {
 		LOG.info("Get_All_Formers");
 		return iFarmerRepository.findAll();
@@ -52,28 +53,32 @@ public class FarmerService implements IfarmerService {
 			throw new FarmerNotFoundException(" Farmer Data is not updated");
 		}
 	}
-
-	@Override
+	
+	public Farmer getFarmer(int farmerId) throws  FarmerNotFoundException{
+		LOG.info("Get Farmer By Id");
+		Optional<Farmer> farmer = iFarmerRepository.findById(farmerId);
+		if(farmer.isPresent()) {
+			LOG.info("Farmer is found");
+			return farmer.get();
+		}else {
+			LOG.info("Farmer is Not Found");
+			throw new FarmerNotFoundException(farmerId+" --> farmerId is not Found ");
+		}
+	}
+	
 	public String sellMilk(int companyid) throws CompanyNotFoundException{
-		LOG.info("Buy Milk");
+		LOG.info("Sell Milk");
 		if(iCompanyRepository.existsById(companyid)) {
 			return "Milk sold successfully";
 		}
 		else {
+			LOG.info("Company Not Found");
 		throw new  CompanyNotFoundException();
 		}
 	}
 
 
-//	@Override
-//	public Farmer validateFarmer(String username, String password) throws  FarmerNotFoundException {
-//		Farmer far= new Farmer();
-//		if(iFarmerRepository.existsby(username))
-//		return iFarmerRepository.getById(far.getFarmerId());
-//			else {
-//				LOG.info(username+ "  Farmer not found");
-//				throw new FarmerNotFoundException(" Farmer  not found");
-//			}
-//	}
+
+
 
 }

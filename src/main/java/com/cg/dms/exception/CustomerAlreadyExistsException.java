@@ -1,7 +1,9 @@
 package com.cg.dms.exception;
 
-public class CustomerAlreadyExistsException extends RuntimeException{
+public class CustomerAlreadyExistsException extends RuntimeException{  
 
+	// if customer already exists, handles CustomerAlreadyExistsException exception
+	
 	/**
 	 * 
 	 */

@@ -14,13 +14,15 @@ public class Payment implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8033530529788101286L;
-	
+
 	@Id
 	private int paymentId;
 	private LocalDateTime dateTime;
+	@NotNull(message = "Bill number shouble be manadatory*")
 	private float bill;
-	private int milkunits;
-	private double unitprice;
+	@NotNull
+	private int milkUnits;
+	private double unitPrice;
 
 	public int getPaymentId() {
 		return paymentId;
@@ -46,20 +48,20 @@ public class Payment implements Serializable {
 		this.bill = bill;
 	}
 
-	public int getMilkunits() {
-		return milkunits;
+	public int getMilkUnits() {
+		return milkUnits;
 	}
 
-	public void setMilkunits(int milkunits) {
-		this.milkunits = milkunits;
+	public void setMilkUnits(int milkUnits) {
+		this.milkUnits = milkUnits;
 	}
 
-	public double getUnitprice() {
-		return unitprice;
+	public double getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setUnitprice(double unitprice) {
-		this.unitprice = unitprice;
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
 }

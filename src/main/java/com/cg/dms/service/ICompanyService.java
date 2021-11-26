@@ -19,7 +19,5 @@ public interface ICompanyService {
 
 	public List<Dealer> getAllDealers();
 	
-//	public List<Dealer> getDealer(int dealerId);
 
-//	public Farmer getFormer(int farmerId);
 }

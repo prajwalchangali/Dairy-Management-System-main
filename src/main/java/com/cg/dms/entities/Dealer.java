@@ -10,6 +10,7 @@ public class Dealer extends AbstractUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int dealerId;
+	
 
 	public int getDealerId() {
 		return dealerId;
@@ -19,3 +20,6 @@ public class Dealer extends AbstractUser {
 		this.dealerId = dealerId;
 	}
 }
+
+
+///  farmer --   company  -- dealer  -- customer

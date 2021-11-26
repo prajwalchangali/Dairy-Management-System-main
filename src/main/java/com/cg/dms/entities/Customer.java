@@ -10,6 +10,8 @@ public class Customer extends AbstractUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerId;
+	
+	
 
 	public int getCustomerId() {
 		return customerId;
@@ -19,3 +21,4 @@ public class Customer extends AbstractUser {
 		this.customerId = customerId;
 	}
 }
+

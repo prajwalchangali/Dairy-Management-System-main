@@ -6,45 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.dms.entities.Login;
+import com.cg.dms.exception.CustomerAlreadyExistsException;
 import com.cg.dms.exception.IncorrectLoginCredentialsException;
-import com.cg.dms.exception.UserAlreadyExistsException;
 import com.cg.dms.repository.ILoginRepository;
 
 @Service
 public class LoginService implements ILoginService {
+	
 	private static final Logger LOG = LoggerFactory.getLogger(LoginService.class);
 	
-@Autowired
-private ILoginRepository userRepository;
+	@Autowired
+	private ILoginRepository userRepository;
 	
-private Login tempuser;
-private Login temppassword;
-private Boolean isLoggedIn;
-
-	public Login registerUser(Login user) {	
+	private Login tempuser;
+	private Login temppassword;
+	private Boolean isLoggedIn;
+	
+	public Login registerUser(Login user) {
 		LOG.info("register");
-		if (userRepository.findByUserName(user.getUserName())!=null)
-		{	throw new UserAlreadyExistsException();
-		
-		}
-		else
-		{
-		return userRepository.save(user);
+		if (userRepository.findByUserName(user.getUserName()) != null) {
+			throw new CustomerAlreadyExistsException();
+
+		} else {
+			return userRepository.save(user);
 		}
 	}
-
-	@Override
-	public Login login(String username,String password) throws IncorrectLoginCredentialsException {
+	
+	public Login login(String username, String password) throws IncorrectLoginCredentialsException {
 		LOG.info("login");
 		this.tempuser = userRepository.findByUserName(username);
-		this.temppassword=userRepository.findByUserPassword(tempuser.getUserPassword());
+		this.temppassword = userRepository.findByUserPassword(tempuser.getUserPassword());
 		if (tempuser.getUserName().equalsIgnoreCase(username) && temppassword.getUserPassword().equals(password)) {
 			isLoggedIn = true;
 			return tempuser;
-		}
-		else
-		throw new IncorrectLoginCredentialsException();
+		} else
+			throw new IncorrectLoginCredentialsException();
 	}
-	
 
 }

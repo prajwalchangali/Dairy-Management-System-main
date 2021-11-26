@@ -10,6 +10,8 @@ public class Farmer extends AbstractUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int farmerId;
+	
+	
 
 	public int getFarmerId() {
 		return farmerId;

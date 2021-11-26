@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Login_table")
 public class Login {
-	
+
 	@Id
 	@Column(name="login_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +63,5 @@ public class Login {
 		// TODO Auto-generated method stub
 		return  "User [loginId=" + loginId + ", userName=" + userName + ", userPassword=" + userPassword + "]";
 	}
-
 
 }

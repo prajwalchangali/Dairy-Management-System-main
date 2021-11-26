@@ -1,13 +1,11 @@
 package com.cg.dms.exception;
 
+public class IncorrectLoginCredentialsException extends Exception {
 
-
-//import com.cg.dms.service.IncorrectLoginCredentialsException;
-
-public class IncorrectLoginCredentialsException extends RuntimeException{
-
-	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2324646562044356461L;
 
 	public IncorrectLoginCredentialsException() {
 		super();
@@ -17,7 +15,4 @@ public class IncorrectLoginCredentialsException extends RuntimeException{
 		super(arg0);
 		
 	}
-	
-	
-
 }

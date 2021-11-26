@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.dms.entities.Dealer;
+import com.cg.dms.exception.CompanyNotFoundException;
+import com.cg.dms.exception.CustomerNotFoundException;
 import com.cg.dms.exception.DealAlreadyExistsException;
 import com.cg.dms.exception.DealerNotFoundException;
+import com.cg.dms.exception.FarmerNotFoundException;
 import com.cg.dms.repository.ICompanyRepository;
+import com.cg.dms.repository.ICustomerRepository;
 import com.cg.dms.repository.IDelearRepository;
 
 @Service
@@ -22,6 +26,8 @@ public class DelearService implements IDelearService {
 	private IDelearRepository iDealerRepository;
 	@Autowired
 	private ICompanyRepository iCompanyRepository;
+	@Autowired
+	private ICustomerRepository iCustomerRepository;
 
 	// public Dealer insertDealer(Dealer dealer);
 	public Dealer insertDealer(Dealer dealer) throws DealAlreadyExistsException {
@@ -73,6 +79,26 @@ public class DelearService implements IDelearService {
 		} else {
 			LOG.info("Dealer is not available");
 			throw new DealerNotFoundException(dealerId + " this dealer is not found.");
+		}
+	}
+	
+	public String sellMilk(int customerId) throws CustomerNotFoundException{
+		LOG.info("sell milk");
+		if(iCustomerRepository.existsById(customerId)) {
+			return "Milk sold successfully";
+		}
+		else {
+		throw new  CustomerNotFoundException();
+		}
+	}
+	
+	public String buyMilk(int companyid) throws CompanyNotFoundException{
+		LOG.info("Buy milk");
+		if(iCompanyRepository.existsById(companyid)) {
+			return "Milk bought successfully";
+		}
+		else {
+		throw new  CompanyNotFoundException();
 		}
 	}
 

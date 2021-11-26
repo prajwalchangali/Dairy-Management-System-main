@@ -2,7 +2,7 @@ package com.cg.dms.entities;
 
 import javax.persistence.*;
 
-@Entity 
+@Entity
 public class Company {
 
 	@Id
@@ -23,6 +23,16 @@ public class Company {
 	}
 
 	public Company(String companyName, String email, String password, String mobileNumber, String address) {
+		this.companyName = companyName;
+		this.email = email;
+		this.password = password;
+		this.mobileNumber = mobileNumber;
+		this.address = address;
+	}
+
+	public Company(int id, String companyName, String email, String password, String mobileNumber, String address) {
+		super();
+		this.id = id;
 		this.companyName = companyName;
 		this.email = email;
 		this.password = password;

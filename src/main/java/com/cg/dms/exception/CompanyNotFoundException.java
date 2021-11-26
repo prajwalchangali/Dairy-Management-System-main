@@ -1,6 +1,6 @@
 package com.cg.dms.exception;
 
-public class CompanyNotFoundException extends Exception {
+public class CompanyNotFoundException extends Exception {   // if company not found handles this userdefined Exception
 
 	/**
 	 * 

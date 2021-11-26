@@ -1,6 +1,6 @@
 package com.cg.dms.controller;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.dms.entities.Company;
 import com.cg.dms.exception.CompanyNotFoundException;
+import com.cg.dms.exception.DealerNotFoundException;
+import com.cg.dms.exception.FarmerNotFoundException;
 import com.cg.dms.service.CompanyService;
 
 @RestController
@@ -28,8 +30,8 @@ public class CompanyController {
 	@Autowired
 	private CompanyService iCompanyService;
 
-	@PostMapping("/addcompany")
-	public ResponseEntity<Company> addcompany(@RequestBody Company company) throws CompanyNotFoundException {
+	@PostMapping("/company")
+	public ResponseEntity<Company> addcompany(@Valid @RequestBody Company company) throws CompanyNotFoundException {
 		LOG.info("Controller addCompany");
 		Company comp = iCompanyService.insertCompany(company);
 		HttpHeaders headers = new HttpHeaders();
@@ -38,8 +40,8 @@ public class CompanyController {
 		return response;
 	}
 
-	@DeleteMapping("/deletecompanybyid/{companyid}")
-	public ResponseEntity<Company> deletecompanyById(@PathVariable(name = "companyid") int companyid)
+	@DeleteMapping("/company/{companyid}")
+	public ResponseEntity<Company> deletecompanyById(@Valid @PathVariable(name = "companyid") int companyid)
 			throws CompanyNotFoundException {
 		LOG.info("deletecompanybyid");
 		Company company = iCompanyService.deleteCompany(companyid);
@@ -48,9 +50,9 @@ public class CompanyController {
 		ResponseEntity<Company> response = new ResponseEntity<Company>(company, headers, HttpStatus.OK);
 		return response;
 	}
-
-	@PutMapping("/updatecompany")
-	public ResponseEntity<Company> updatecompany(@RequestBody Company company) throws CompanyNotFoundException {
+	
+	@PutMapping("/company/update")
+	public ResponseEntity<Company> updatecompany(@Valid @RequestBody Company company) throws CompanyNotFoundException {
 		LOG.info("Controller company");
 		Company comp = iCompanyService.updateCompany(company);
 		HttpHeaders headers = new HttpHeaders();
@@ -59,8 +61,8 @@ public class CompanyController {
 		return response;
 	}
 
-	@GetMapping("/getcompanybyid/{companyId}")
-	public ResponseEntity<Company> getcompanyById(@PathVariable(name = "companyId") int companyId)
+	@GetMapping("/company/get/{companyId}")
+	public ResponseEntity<Company> getcompanyById(@Valid @PathVariable(name = "companyId") int companyId)
 			throws CompanyNotFoundException {
 		LOG.info("getcompanyById");
 		Company company = iCompanyService.getCompanyById(companyId);
@@ -71,11 +73,24 @@ public class CompanyController {
 		return response;
 	}
 	
-	@GetMapping("/getallcompany")
-	public List<Company> getAllCompany() {
-		LOG.info("getAllCompany");
-
-		return iCompanyService.getAllCompany();
+	@GetMapping("/sellmilk/{dealerId}")
+	public ResponseEntity<String> sellMilk(@PathVariable(name = "dealerId")int dealerId) throws DealerNotFoundException{
+		LOG.info("Controller updatefarmer");
+		String sellmilk = iCompanyService.sellMilk(dealerId);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "milk sold successfully.");
+		ResponseEntity<String> response = new ResponseEntity<String>(sellmilk, headers, HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/buyMilk/{farmerid}")
+	public ResponseEntity<String> buyMilk(@PathVariable(name = "farmerid")int farmerid) throws FarmerNotFoundException{
+		LOG.info("Controller updatefarmer");
+		String buymilk = iCompanyService.buyMilk(farmerid);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "milk bought successfully.");
+		ResponseEntity<String> response = new ResponseEntity<String>(buymilk, headers, HttpStatus.OK);
+		return response;
 	}
 
 }

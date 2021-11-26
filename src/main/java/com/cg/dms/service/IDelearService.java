@@ -13,8 +13,4 @@ public interface IDelearService {
 
 	public Dealer getDealer(int dealerId) throws DealerNotFoundException;
 
-//	public List<Customer> getAllCustomers();
-
-//	public List<Customer> getCustomer(int customerId);
-
 }

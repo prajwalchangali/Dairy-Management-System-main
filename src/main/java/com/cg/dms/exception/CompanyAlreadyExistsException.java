@@ -2,6 +2,8 @@ package com.cg.dms.exception;
 
 public class CompanyAlreadyExistsException extends RuntimeException{
 
+	//if company already exists, handles CompanyAlreadyExistsException
+	
 	/**
 	 * 
 	 */

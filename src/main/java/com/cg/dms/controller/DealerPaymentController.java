@@ -9,5 +9,5 @@ import com.cg.dms.service.DealerPaymentService;
 public class DealerPaymentController {
 
 	@Autowired
-	private DealerPaymentService idealerpaymentservice;
+	private DealerPaymentService idealerPaymentService;
 }

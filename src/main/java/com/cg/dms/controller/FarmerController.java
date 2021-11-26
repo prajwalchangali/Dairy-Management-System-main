@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 public class FarmerController {
 
@@ -25,13 +27,13 @@ public class FarmerController {
 	@Autowired
 	private FarmerService iFarmerService;
 
-	@GetMapping("/farmer")
+	@GetMapping("/farmer/all")
 	public List<Farmer> getAllFarmer() {
 		return iFarmerService.getAllFarmer();
 	}
 
 	@PostMapping("/farmer")
-	public ResponseEntity<Farmer> addfarmer(@RequestBody Farmer farmer) throws FarmerAlreadyExistsException {
+	public ResponseEntity<Farmer> addFarmer(@Valid @RequestBody Farmer farmer) throws FarmerAlreadyExistsException {
 		LOG.info("Controller addfarmer");
 		Farmer former = iFarmerService.addFarmer(farmer);
 		HttpHeaders headers = new HttpHeaders();
@@ -42,7 +44,7 @@ public class FarmerController {
 	}
 
 	@PutMapping("/farmer")
-	public ResponseEntity<Farmer> updatefarmer(@RequestBody Farmer farmer) throws FarmerNotFoundException {
+	public ResponseEntity<Farmer> updateFarmer(@Valid @RequestBody Farmer farmer) throws FarmerNotFoundException {
 		LOG.info("Controller updatefarmer");
 		Farmer former = iFarmerService.updateFarmer(farmer);
 		HttpHeaders headers = new HttpHeaders();
@@ -50,7 +52,16 @@ public class FarmerController {
 		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(former, headers, HttpStatus.OK);
 		return response;
 	}
-	
+
+	@GetMapping("/farmer/{farmerId}")
+	public ResponseEntity<Farmer> getFarmerById(@Valid @PathVariable(name="farmerId") int farmerId) throws FarmerNotFoundException{
+		LOG.info("getFarmer");
+		Farmer farmer = iFarmerService.getFarmer(farmerId);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Farmer Id is Found ");
+		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(farmer, headers, HttpStatus.OK);
+		return response;
+	}
 	
 	@GetMapping("/sellmilk/{companyid}")
 	public ResponseEntity<String> sellMilk(@PathVariable(name = "companyid")int companyid) throws CompanyNotFoundException{
@@ -61,41 +72,5 @@ public class FarmerController {
 		ResponseEntity<String> response = new ResponseEntity<String>(sellmilk, headers, HttpStatus.OK);
 		return response;
 	}
-	
-//	@GetMapping("/getFarmer/{dealerId}")
-//	public ResponseEntity<Farmer> getFarmer(@PathVariable(name = "farmerId") int farmerId) throws DealerNotFoundException {
-//		LOG.info("getFarmer");
-//		Farmer farmer = iFarmerService.getFarmer(farmerId);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("message", "This Farmer is available in the database.");
-//		LOG.info(headers.toString());
-//		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(farmer, headers, HttpStatus.OK);
-//		return response;
-//	}
-	
-//	@GetMapping("/getFarmer/{dealerId}")
-//	public ResponseEntity<Farmer> getFarmer(@PathVariable(name = "farmerId") int dealerId) throws DealerNotFoundException {
-//		LOG.info("getFarmer");
-//		Farmer farmer = iFarmerService.getFarmer(dealerId);
-//		LOG.info(farmer.toString());
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("message", "This Farmer is available in the database.");
-//		LOG.info(headers.toString());
-//		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(farmer, headers, HttpStatus.OK);
-//		return response;
-//	}
-	
-//	@GetMapping("/getFarmer/{username}")
-//	public ResponseEntity<Farmer> validateFarmer(@PathVariable(name = "username")String username, String password) throws  FarmerNotFoundException{
-//		LOG.info("Controller updatefarmer");
-//		Farmer former = iFarmerService.validateFarmer(username, password);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("message", "This farmer data is updated in database.");
-//		ResponseEntity<Farmer> response = new ResponseEntity<Farmer>(former, headers, HttpStatus.OK);
-//		return response;	
-//		
-//	}
-	
-	
 	
 }

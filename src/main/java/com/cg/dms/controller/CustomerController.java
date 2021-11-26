@@ -2,6 +2,8 @@ package com.cg.dms.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import com.cg.dms.entities.Customer;
 import com.cg.dms.exception.CustomerNotFoundException;
 import com.cg.dms.service.CustomerService;
 
+import io.swagger.models.Response;
+
 @RestController
 public class CustomerController {
 	
@@ -28,17 +32,17 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerservice;
 	
-	//https://localhost:8082/vwalcusts
-	@GetMapping("/viewallcustoms")
+	
+	@GetMapping("/customer/all")
 	public List<Customer> viewCustomers() throws CustomerNotFoundException{
 		LOG.info("VIEW_ALL_CUSTOMERS_CONTROLLER");
 		List<Customer> list = customerservice.viewCustomers();
 		return list;
 	}
 	
-	//https://localhost:8082/insrtcustom
-	@PostMapping("/insrtcustom")
-	public ResponseEntity<Customer> insertCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+	
+	@PostMapping("/customer")
+	public ResponseEntity<Customer> insertCustomer(@Valid @RequestBody Customer customer) throws CustomerNotFoundException {
 		LOG.info("INSERT_CUSTOMER_CONTROLLER");
 		Customer custom = customerservice.insertCustomer(customer);
 		HttpHeaders headers = new HttpHeaders();
@@ -47,9 +51,9 @@ public class CustomerController {
 		return response;
 	}
 	
-	//https://localhost:8082/updtcustom
-	@PutMapping("/updtcustom")
-	public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
+
+	@PutMapping("/customer")
+	public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer) throws CustomerNotFoundException {
 		LOG.info("UPDATE_CUSTOMER_CONTROLLER");
 		Customer custom = customerservice.updateCustomer(customer);
 		HttpHeaders headers = new HttpHeaders();
@@ -58,9 +62,9 @@ public class CustomerController {
 		return response;
 	}
 	
-	//https://localhost:8082/delbyid/{customerId}
-	@DeleteMapping("/delbyid/{customerId}")
-	public ResponseEntity<Customer> deleteCustomerById(@PathVariable int customerId) throws CustomerNotFoundException {
+	
+	@DeleteMapping("/customer/{customerId}")
+	public ResponseEntity<Customer> deleteCustomerById(@Valid @PathVariable int customerId) throws CustomerNotFoundException {
 		LOG.info("DELETE_CUSTOMER_BY_ID_CONTROLLER");
 		Customer custom = customerservice.deleteCustomer(customerId);
 		HttpHeaders headers = new HttpHeaders();
@@ -69,9 +73,9 @@ public class CustomerController {
 		return response;
 	}
 	
-	//https://localhost:8082/viewcustombyid/{customerId}
-	@GetMapping("/viewcustombyid/{customerId}")
-	public ResponseEntity<Customer> viewCustomerById(@PathVariable(name="customerId") int customerId) throws CustomerNotFoundException {
+	
+	@GetMapping("/customer/_/{customerId}")
+	public ResponseEntity<Customer> viewCustomerById(@Valid @PathVariable(name="customerId") int customerId) throws CustomerNotFoundException {
 		LOG.info("VIEW_CUSTOMER_BY_ID");
 		Customer custom = customerservice.viewCustomer(customerId);
 		HttpHeaders headers = new HttpHeaders();
@@ -89,9 +93,15 @@ public class CustomerController {
 			
 		}
 	}
-	
-	
-	
-	
+	@GetMapping("/Customer/{user}{password}")
+	public ResponseEntity<Customer> validCustomer(@PathVariable(name="user") String username,@PathVariable(name="password")String password) throws CustomerNotFoundException {
+		LOG.info("customer is valid");
+		Customer custom = customerservice.validateCustomer(username, password);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message","Customer details are found");
+		ResponseEntity<Customer> response =
+				new ResponseEntity<Customer>(custom,headers,HttpStatus.OK);
+		return response;
+	}
 
 }

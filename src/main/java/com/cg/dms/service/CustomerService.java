@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.cg.dms.entities.Customer;
 import com.cg.dms.exception.CustomerAlreadyExistsException;
 import com.cg.dms.exception.CustomerNotFoundException;
+import com.cg.dms.exception.IncorrectLoginCredentialsException;
+import com.cg.dms.exception.UserNotFoundException;
 import com.cg.dms.repository.ICustomerRepository;
 
 @Service
-public class CustomerService implements ICustomerService{
+public class CustomerService implements ICustomerService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
@@ -22,7 +24,7 @@ public class CustomerService implements ICustomerService{
 	private ICustomerRepository icustomerRepository;
 
 //	public List<Customer>viewCustomers() throws CustomerNotFoundException;
-	public List<Customer>viewCustomers() throws CustomerNotFoundException{
+	public List<Customer> viewCustomers() throws CustomerNotFoundException {
 		LOG.info("Get All Customer Services");
 		return icustomerRepository.findAll();
 	}
@@ -31,23 +33,23 @@ public class CustomerService implements ICustomerService{
 	public Customer insertCustomer(Customer customer) throws CustomerAlreadyExistsException {
 		LOG.info("add New Customer Service");
 		Optional<Customer> custom = icustomerRepository.findById(customer.getCustomerId());
-		if(custom.isPresent())
-			throw new CustomerAlreadyExistsException(customer.getCustomerId()+"is already present in Customer data");
+		if (custom.isPresent())
+			throw new CustomerAlreadyExistsException(customer.getCustomerId() + "is already present in Customer data");
 		else
 			LOG.info("added new Customer");
-			return icustomerRepository.save(customer);		
+		return icustomerRepository.save(customer);
 	}
 
 	// public Customer updateCustomer(Customer customer) throws
 	// CustomerNotFoundException;
-	public Customer updateCustomer(Customer customer) {
+	public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
 		LOG.info("Update customer Service");
 		if (icustomerRepository.existsById(customer.getCustomerId())) {
 			LOG.info("Update customer service");
 			return icustomerRepository.save(customer);
-		}else {
-		System.out.println(customer.getCustomerId() + "does not found from Database source");
-		return null;
+		} else {
+			LOG.info(customer.getCustomerId() + " Customer data is Not updated");
+			throw new CustomerNotFoundException("Customer data is Not updated");
 		}
 	}
 
@@ -81,19 +83,15 @@ public class CustomerService implements ICustomerService{
 
 	}
 
-
-
-
-//	public Customer validateCustomer(String username, String password) throws CustomerNotFoundException;
-	/*
-	 * public Customer validateCustomer(String username,String password) throws
-	 * CustomerNotFoundException { LOG.info("Validating Customer credntials");
-	 * 
-	 * return null; }
-	 */
-
+	public Customer validateCustomer(String username, String password) throws CustomerNotFoundException{
+		if(icustomerRepository.equals(username)) {
+			if(icustomerRepository.equals(password)) {
+				LOG.info( "Customer login details is valid");
+		}else {
+			LOG.info("Customer details not found");
+			throw new CustomerNotFoundException("sdgwd");
+		}
+	}
+		return null;
+	}
 }
-
-// Extra added
-//
-//
