@@ -18,6 +18,7 @@ import com.cg.dms.entities.CompanyPayment;
 import com.cg.dms.entities.CustomerPayment;
 import com.cg.dms.entities.DealerPayment;
 import com.cg.dms.entities.Payment;
+import com.cg.dms.exception.CompanyNotFoundException;
 import com.cg.dms.exception.CustomerNotFoundException;
 import com.cg.dms.service.PaymentService;
 
@@ -65,6 +66,25 @@ public class PaymentController {
 		double pay = paymentservice.calculateBillForCustomer(customerid, milkunits, price);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("message", "Bill generated for customer");
+		ResponseEntity<Double> response = new ResponseEntity<Double>(pay,headers,HttpStatus.OK);
+		return response;
+	}
+	
+	@GetMapping("/billcalculation/{companyid}")
+	public ResponseEntity<Double> calculateBillForCompany(@Valid @PathVariable(name="companyid") int companyid, int milkunits, double price)throws CompanyNotFoundException{
+		LOG.info("insert customer to Dealer");
+		double pay = paymentservice.calculateBillForCompany(companyid, milkunits, price);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Bill generated for company");
+		ResponseEntity<Double> response = new ResponseEntity<Double>(pay,headers,HttpStatus.OK);
+		return response;
+	}
+	@GetMapping("/billcalculation/{dealerid}")
+	public ResponseEntity<Double> calculateBillForDealer(@Valid @PathVariable(name="dealerid") int dealerid, int milkunits, double price)throws CompanyNotFoundException{
+		LOG.info("insert customer to Dealer");
+		double pay = paymentservice.calculateBillForDealer(dealerid, milkunits, price);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Bill generated for dealer");
 		ResponseEntity<Double> response = new ResponseEntity<Double>(pay,headers,HttpStatus.OK);
 		return response;
 	}
