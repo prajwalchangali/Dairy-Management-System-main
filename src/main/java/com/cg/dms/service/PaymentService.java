@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.dms.entities.CompanyPayment;
+import com.cg.dms.entities.Customer;
 import com.cg.dms.entities.CustomerPayment;
 import com.cg.dms.entities.DealerPayment;
 import com.cg.dms.entities.Payment;
+import com.cg.dms.exception.CustomerNotFoundException;
 import com.cg.dms.exception.PaymentAlreadyFoundException;
 import com.cg.dms.repository.ICompanyPaymentRepository;
 import com.cg.dms.repository.ICustomerPaymentRepository;
@@ -65,5 +67,20 @@ public class PaymentService {
 			return icustomerpaymentrepository.save(payment);
 		}
 	}
+
+	public double calculateBillForCustomer(int customerid, int milkunits,double price) throws CustomerNotFoundException {
+		
+	
+		if(icustomerpaymentrepository.existsById(customerid)) {
+		double	bill=milkunits*price;
+			return bill;
+		}
+		else {
+			throw new CustomerNotFoundException();
+		}
+		
+			
+		}
+	
 
 }

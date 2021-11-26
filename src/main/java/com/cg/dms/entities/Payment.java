@@ -47,6 +47,7 @@ public class Payment implements Serializable {
 	public void setBill(float bill) {
 		this.bill = bill;
 	}
+	
 
 	public int getMilkUnits() {
 		return milkUnits;
