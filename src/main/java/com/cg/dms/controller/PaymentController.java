@@ -64,7 +64,7 @@ public class PaymentController {
 		LOG.info("insert customer to Dealer");
 		double pay = paymentservice.calculateBillForCustomer(customerid, milkunits, price);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("message", "New Customer Payment is added");
+		headers.add("message", "Bill generated for customer");
 		ResponseEntity<Double> response = new ResponseEntity<Double>(pay,headers,HttpStatus.OK);
 		return response;
 	}
